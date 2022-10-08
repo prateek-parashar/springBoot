@@ -1,9 +1,7 @@
 package com.springboot.restfulapi.controllers;
 
 import com.springboot.restfulapi.models.Coffee;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,4 +26,19 @@ public class CoffeeController {
                       .filter(coffee -> coffee.getId().equals(id))
                       .findAny();
     }
+
+    @PostMapping("/coffees")
+    Coffee addCoffee(@RequestBody Coffee coffee) {
+        coffees.add(coffee);
+        return coffee;
+    }
+
+    @PutMapping("/coffees")
+    Coffee putCoffee(@RequestBody Coffee coffee) {
+        return coffees.stream()
+                .filter(c -> c.getId().equals(coffee.getId()))
+                .findAny().orElse(addCoffee(coffee));
+    }
+
+
 }
