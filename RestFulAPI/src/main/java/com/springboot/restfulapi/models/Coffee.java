@@ -2,19 +2,24 @@ package com.springboot.restfulapi.models;
 
 import lombok.Data;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.UUID;
 
+@Entity
 @Data
 public class Coffee {
-    private final String id;
-    private String name;
+    public Coffee() {
 
-    public Coffee(String id, String name) {
-        this.id = id;
-        this.name = name;
     }
 
     public Coffee(String name) {
-        this(UUID.randomUUID().toString(), name);
+        this.id = UUID.randomUUID().toString();
+        this.name = name;
     }
+
+    @Id
+    private String id;
+    private String name;
+
 }
