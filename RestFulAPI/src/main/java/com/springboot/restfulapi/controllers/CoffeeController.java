@@ -3,6 +3,7 @@ package com.springboot.restfulapi.controllers;
 import com.springboot.restfulapi.models.Coffee;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -34,11 +35,16 @@ public class CoffeeController {
     }
 
     @PutMapping("/coffees")
-    Coffee putCoffee(@RequestBody Coffee coffee) {
-        return coffees.stream()
-                .filter(c -> c.getId().equals(coffee.getId()))
-                .findAny().orElse(addCoffee(coffee));
+    Optional<Coffee> putCoffee(@RequestBody Coffee coffee) {
+        Optional<Coffee> availableCoffee = coffees.stream()
+                                                  .filter(c -> c.getId().equals(coffee.getId()))
+                                                  .findAny();
+        return Optional.ofNullable(availableCoffee.orElse(addCoffee(coffee)));
     }
 
+    @DeleteMapping("/coffees/{id}")
+    void deleteCoffee(@PathVariable String id) {
+        coffees.removeIf(coffee -> coffee.getId().equals(id));
+    }
 
 }
