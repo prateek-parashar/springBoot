@@ -6,8 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/coffees")
@@ -17,13 +17,6 @@ public class CoffeeController {
 
     public CoffeeController(CoffeeRepository dao) {
         this.dao = dao;
-
-        this.dao.saveAll(List.of(
-                new Coffee("Café Cereza"),
-                new Coffee("Café Ganador"),
-                new Coffee("Café Lareño"),
-                new Coffee("Café Três Pontas")
-        ));
     }
 
     @GetMapping
