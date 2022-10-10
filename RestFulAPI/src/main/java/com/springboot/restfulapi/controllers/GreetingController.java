@@ -1,5 +1,6 @@
 package com.springboot.restfulapi.controllers;
 
+import com.springboot.restfulapi.models.Greeting;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.repository.cdi.Eager;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,18 +11,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/greet")
 public class GreetingController {
 
-    @Value("${greeting-name: Mira}")
-    private String name;
-    @Value("${greeting-coffee : ${greeting-name} is drinking coffee}")
-    private String coffee;
+    private Greeting greeting;
+    public GreetingController(Greeting greeting) {
+        this.greeting = greeting;
+    }
 
     @GetMapping
     public String greet() {
-        return name;
+        return greeting.getName();
     }
 
     @GetMapping("/coffee")
     public String greetCoffee() {
-        return coffee;
+        return greeting.getCoffeeGreeting();
     }
 }
