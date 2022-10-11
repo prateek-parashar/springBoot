@@ -7,7 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 @Service
@@ -24,13 +26,11 @@ public class PlaneFinderPoller {
 
     public Iterable<Aircraft> planePoller() {
 
-        client.get()
-              .retrieve()
-              .bodyToFlux(Aircraft.class)
-              .toStream()
-              .forEach(repository::save);
+        Mono<Aircraft[]> response = client.get()
+                                        .retrieve()
+                                        .bodyToMono(Aircraft[].class);
 
-        return repository.findAll();
+        return List.of(response.block());
     }
 
 

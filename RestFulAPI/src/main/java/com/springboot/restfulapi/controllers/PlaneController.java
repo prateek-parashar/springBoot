@@ -1,7 +1,6 @@
 package com.springboot.restfulapi.controllers;
 
-import com.springboot.restfulapi.dao.AircraftRepository;
-import com.springboot.restfulapi.models.Aircraft;
+import com.springboot.restfulapi.service.PlaneFinderPoller;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -14,22 +13,13 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class PlaneController {
 
     @NonNull
-    private final AircraftRepository repository;
+    private final PlaneFinderPoller poller;
     private WebClient client =
             WebClient.create("http://localhost:7634/aircraft");
 
     @GetMapping("/aircraft")
     public String getCurrentAircraftPositions(Model model) {
-        repository.deleteAll();
-
-        client.get()
-              .retrieve()
-              .bodyToFlux(Aircraft.class)
-              .filter(plane -> !plane.getReg().isEmpty())
-              .toStream()
-              .forEach(repository::save);
-
-        model.addAttribute("currentPositions", repository.findAll());
+        model.addAttribute("currentPositions", poller.planePoller());
         return "positions";
     }
 
