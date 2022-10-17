@@ -14,8 +14,6 @@ public class PlaneController {
 
     @NonNull
     private final PlaneFinderPoller poller;
-    private WebClient client =
-            WebClient.create("http://localhost:7634/aircraft");
 
     @GetMapping("/aircraft")
     public String getCurrentAircraftPositions(Model model) {
