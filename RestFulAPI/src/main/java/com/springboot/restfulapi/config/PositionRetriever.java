@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import java.util.List;
 import java.util.function.Consumer;
 
-@Configuration
+//@Configuration
 @AllArgsConstructor
 public class PositionRetriever {
     private final AircraftRepository aircraftRepository;
